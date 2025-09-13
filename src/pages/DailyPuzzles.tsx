@@ -300,4 +300,13 @@ const DailyPuzzles = () => {
   );
 };
 
-export default DailyPuzzles;
+import { Footer } from "@/components/Footer";
+
+const DailyPuzzlesWithFooter = () => (
+  <>
+    <DailyPuzzles />
+    <Footer />
+  </>
+);
+
+export default DailyPuzzlesWithFooter;

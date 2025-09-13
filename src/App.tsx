@@ -13,6 +13,7 @@ import SkillProgression from "./pages/SkillProgression";
 import LeaderboardPage from "./pages/LeaderboardPage";
 import SimulationPage from "./pages/SimulationPage";
 import Profile from "./pages/Profile";
+import Community from "./pages/Community";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ const App = () => (
             <Route path="/leaderboard" element={<LeaderboardPage />} />
             <Route path="/simulation/:crisisId" element={<SimulationPage />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/community" element={<Community />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
