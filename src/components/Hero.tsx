@@ -1,6 +1,9 @@
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 export const Hero = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
       <div className="relative z-10 container mx-auto px-6">
@@ -22,6 +25,7 @@ export const Hero = () => {
             <Button 
               size="lg" 
               className="bg-primary text-primary-foreground hover:bg-primary/90 font-mono text-base px-8 py-6 h-auto rounded-none"
+              onClick={() => navigate('/market-crashes')}
             >
               START SIMULATION
             </Button>
@@ -29,6 +33,7 @@ export const Hero = () => {
               variant="outline" 
               size="lg" 
               className="border-primary/50 text-primary hover:bg-primary/10 font-mono text-base px-8 py-6 h-auto rounded-none"
+              onClick={() => navigate('/leaderboard')}
             >
               VIEW RANKINGS
             </Button>
