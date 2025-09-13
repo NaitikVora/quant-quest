@@ -107,52 +107,51 @@ const MarketCrashes = () => {
   // Show simulation if scenario is selected
   if (selectedScenario) {
     return (
-      <MarketCrashSimulation
-        scenario={selectedScenario}
-        onComplete={handleSimulationComplete}
-        onBack={handleBackToScenarios}
-      />
+      <div className="min-h-screen bg-background flex flex-col">
+        <div className="flex-1 flex flex-col">
+          <MarketCrashSimulation
+            scenario={selectedScenario}
+            onComplete={handleSimulationComplete}
+            onBack={handleBackToScenarios}
+          />
+        </div>
+      </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navigation />
       {/* Header */}
-      <section className="border-b border-border/50 bg-card/30">
-        <div className="container mx-auto px-6 py-8">
-          <div className="max-w-4xl mx-auto">
+      <section className="border-b border-border/50 bg-card/30 w-full">
+        <div className="container mx-auto px-4 sm:px-6 py-8 w-full">
+          <div className="max-w-4xl mx-auto w-full">
             <div className="mb-6">
               <p className="text-primary font-mono text-sm mb-2">STRESS TESTING</p>
-              <h1 className="text-4xl md:text-5xl font-mono font-bold mb-4 text-foreground">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold mb-4 text-foreground break-words">
                 MARKET CRASHES
               </h1>
               <div className="h-px bg-primary w-24 mb-6"></div>
             </div>
-            
-            <p className="text-lg font-mono text-muted-foreground mb-8 leading-relaxed">
+            <p className="text-base sm:text-lg font-mono text-muted-foreground mb-8 leading-relaxed">
               Test strategies against historical crashes and volatility events. Navigate through the most challenging market conditions.
             </p>
-
             {/* Stats Row */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 font-mono text-sm mb-8">
-              <div className="border-l-2 border-primary pl-4">
-                <h3 className="text-foreground mb-1">SCENARIOS</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 font-mono text-sm mb-8 w-full">
+              <div className="border-l-2 border-primary pl-4 min-w-0">
+                <h3 className="text-foreground mb-1 truncate">SCENARIOS</h3>
                 <p className="text-accent text-lg font-bold">12</p>
               </div>
-              
-              <div className="border-l-2 border-primary pl-4">
-                <h3 className="text-foreground mb-1">COMPLETED</h3>
+              <div className="border-l-2 border-primary pl-4 min-w-0">
+                <h3 className="text-foreground mb-1 truncate">COMPLETED</h3>
                 <p className="text-success text-lg font-bold">2</p>
               </div>
-              
-              <div className="border-l-2 border-primary pl-4">
-                <h3 className="text-foreground mb-1">AVG SCORE</h3>
+              <div className="border-l-2 border-primary pl-4 min-w-0">
+                <h3 className="text-foreground mb-1 truncate">AVG SCORE</h3>
                 <p className="text-primary text-lg font-bold">0.785</p>
               </div>
-              
-              <div className="border-l-2 border-primary pl-4">
-                <h3 className="text-foreground mb-1">BEST RETURN</h3>
+              <div className="border-l-2 border-primary pl-4 min-w-0">
+                <h3 className="text-foreground mb-1 truncate">BEST RETURN</h3>
                 <p className="text-muted-foreground text-lg font-bold">+21.5%</p>
               </div>
             </div>
@@ -161,9 +160,9 @@ const MarketCrashes = () => {
       </section>
 
       {/* Navigation Tabs */}
-      <section className="py-6 px-6">
-        <div className="container mx-auto max-w-4xl">
-          <div className="flex gap-2 mb-8 font-mono">
+      <section className="py-6 px-2 sm:px-6 w-full">
+        <div className="container mx-auto max-w-4xl w-full">
+          <div className="flex flex-wrap gap-2 mb-8 font-mono">
             <Button
               variant={activeTab === 'scenarios' ? 'default' : 'outline'}
               onClick={() => setActiveTab('scenarios')}
@@ -191,87 +190,86 @@ const MarketCrashes = () => {
           {activeTab === 'scenarios' && (
             <div className="space-y-4">
               <h2 className="text-xl font-mono font-bold text-foreground mb-6">HISTORICAL SCENARIOS</h2>
-
-              {crashScenarios.map((scenario) => (
-                <Card key={scenario.id} className="card-terminal p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-lg font-mono text-foreground">{scenario.name}</h3>
-                        <Badge variant="outline" className="border-primary/50 text-primary">
-                          {scenario.code}
-                        </Badge>
-                        <Badge 
-                          variant="outline" 
-                          className={`${
-                            scenario.difficulty === 'Medium' ? 'border-warning/50 text-warning' :
-                            scenario.difficulty === 'Hard' ? 'border-destructive/50 text-destructive' :
-                            'border-destructive text-destructive'
-                          }`}
+              <div className="space-y-4">
+                {crashScenarios.map((scenario) => (
+                  <Card key={scenario.id} className="card-terminal p-4 sm:p-6 w-full overflow-x-auto">
+                    <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-4 gap-4 md:gap-0 w-full">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-3 mb-2">
+                          <h3 className="text-lg font-mono text-foreground break-words">{scenario.name}</h3>
+                          <Badge variant="outline" className="border-primary/50 text-primary">
+                            {scenario.code}
+                          </Badge>
+                          <Badge 
+                            variant="outline" 
+                            className={`$${
+                              scenario.difficulty === 'Medium' ? 'border-warning/50 text-warning' :
+                              scenario.difficulty === 'Hard' ? 'border-destructive/50 text-destructive' :
+                              'border-destructive text-destructive'
+                            }`}
+                          >
+                            {scenario.difficulty}
+                          </Badge>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-4 leading-relaxed break-words">
+                          {scenario.description}
+                        </p>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm font-mono w-full">
+                          <div className="min-w-0">
+                            <p className="text-muted-foreground mb-1">Period</p>
+                            <p className="text-foreground break-words">{scenario.date}</p>
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-muted-foreground mb-1">Duration</p>
+                            <p className="text-foreground break-words">{scenario.duration}</p>
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-muted-foreground mb-1">Max Drawdown</p>
+                            <p className="text-destructive break-words">{scenario.maxDrawdown}</p>
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-muted-foreground mb-1">Volatility</p>
+                            <p className="text-warning break-words">{scenario.volatility}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-4 w-full">
+                      <div className="flex items-center gap-4 flex-wrap">
+                        {scenario.completed ? (
+                          <Badge className="bg-success">
+                            COMPLETED
+                          </Badge>
+                        ) : (
+                          <Badge variant="outline" className="border-muted-foreground/50 text-muted-foreground">
+                            NOT ATTEMPTED
+                          </Badge>
+                        )}
+                        {scenario.bestScore && (
+                          <span className="text-sm font-mono text-accent">
+                            Best Score: {(scenario.bestScore * 100).toFixed(1)}%
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex gap-2 flex-wrap">
+                        <Button 
+                          className="btn-terminal rounded-none w-full sm:w-auto"
+                          onClick={() => handleStartSimulation(scenario)}
                         >
-                          {scenario.difficulty}
-                        </Badge>
-                      </div>
-                      <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-                        {scenario.description}
-                      </p>
-                      
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm font-mono">
-                        <div>
-                          <p className="text-muted-foreground mb-1">Period</p>
-                          <p className="text-foreground">{scenario.date}</p>
-                        </div>
-                        <div>
-                          <p className="text-muted-foreground mb-1">Duration</p>
-                          <p className="text-foreground">{scenario.duration}</p>
-                        </div>
-                        <div>
-                          <p className="text-muted-foreground mb-1">Max Drawdown</p>
-                          <p className="text-destructive">{scenario.maxDrawdown}</p>
-                        </div>
-                        <div>
-                          <p className="text-muted-foreground mb-1">Volatility</p>
-                          <p className="text-warning">{scenario.volatility}</p>
-                        </div>
+                          START SIMULATION
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          className="rounded-none w-full sm:w-auto"
+                          onClick={() => navigate(`/simulation/${scenario.id}`)}
+                        >
+                          DETAILS
+                        </Button>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      {scenario.completed ? (
-                        <Badge className="bg-success">
-                          COMPLETED
-                        </Badge>
-                      ) : (
-                        <Badge variant="outline" className="border-muted-foreground/50 text-muted-foreground">
-                          NOT ATTEMPTED
-                        </Badge>
-                      )}
-                      {scenario.bestScore && (
-                        <span className="text-sm font-mono text-accent">
-                          Best Score: {(scenario.bestScore * 100).toFixed(1)}%
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex gap-4">
-                      <Button 
-                        className="btn-terminal rounded-none"
-                        onClick={() => handleStartSimulation(scenario)}
-                      >
-                        START SIMULATION
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        className="rounded-none"
-                        onClick={() => navigate(`/simulation/${scenario.id}`)}
-                      >
-                        DETAILS
-                      </Button>
-                    </div>
-                  </div>
-                </Card>
-              ))}
+                  </Card>
+                ))}
+              </div>
             </div>
           )}
 
@@ -464,13 +462,4 @@ const MarketCrashes = () => {
   );
 };
 
-import { Footer } from "@/components/Footer";
-
-const MarketCrashesWithFooter = () => (
-  <>
-    <MarketCrashes />
-    <Footer />
-  </>
-);
-
-export default MarketCrashesWithFooter;
+export default MarketCrashes;
