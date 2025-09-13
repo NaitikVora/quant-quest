@@ -136,52 +136,6 @@ const QuantAlgorithmCompetition: React.FC<QuantAlgorithmCompetitionProps> = ({ o
     { id: 'pairs_trading', name: 'Pairs Trading', description: 'Pairs Trading Strategy' }
   ];
 
-  // Sound effects
-  const playSound = (type: 'select' | 'overtake' | 'achievement' | 'victory' | 'defeat') => {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    switch (type) {
-      case 'select':
-        oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
-        oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.1);
-        oscillator.type = 'square';
-        break;
-      case 'overtake':
-        oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(800, audioContext.currentTime + 0.3);
-        oscillator.type = 'sawtooth';
-        break;
-      case 'achievement':
-        oscillator.frequency.setValueAtTime(523, audioContext.currentTime);
-        oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.1);
-        oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.2);
-        oscillator.type = 'sine';
-        break;
-      case 'victory':
-        oscillator.frequency.setValueAtTime(523, audioContext.currentTime);
-        oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.2);
-        oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.4);
-        oscillator.frequency.setValueAtTime(1047, audioContext.currentTime + 0.6);
-        oscillator.type = 'sine';
-        break;
-      case 'defeat':
-        oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.5);
-        oscillator.type = 'sawtooth';
-        break;
-    }
-    
-    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-    
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.5);
-  };
 
   // Draw dataset preview chart
   const drawChart = (data: number[], canvas: HTMLCanvasElement, color: string) => {
