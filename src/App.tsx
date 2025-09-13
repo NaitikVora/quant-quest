@@ -10,6 +10,7 @@ import DailyPuzzles from "./pages/DailyPuzzles";
 import MarketCrashes from "./pages/MarketCrashes";
 import SkillProgression from "./pages/SkillProgression";
 import LeaderboardPage from "./pages/LeaderboardPage";
+import SimulationPage from "./pages/SimulationPage";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/market-crashes" element={<MarketCrashes />} />
           <Route path="/skill-progression" element={<SkillProgression />} />
           <Route path="/leaderboard" element={<LeaderboardPage />} />
+          <Route path="/simulation/:crisisId" element={<SimulationPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

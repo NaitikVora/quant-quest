@@ -4,13 +4,15 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Navigation } from "@/components/Navigation";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const MarketCrashes = () => {
   const [activeTab, setActiveTab] = useState<'scenarios' | 'simulation' | 'results'>('scenarios');
+  const navigate = useNavigate();
 
   const crashScenarios = [
     {
-      id: 1,
+      id: "gfc-2008",
       name: "2008 Financial Crisis",
       code: "GFC08",
       date: "Sep 2008 - Mar 2009",
@@ -23,7 +25,7 @@ const MarketCrashes = () => {
       bestScore: null
     },
     {
-      id: 2,
+      id: "covid-2020",
       name: "COVID-19 Crash",
       code: "CV19",
       date: "Feb 2020 - Apr 2020",
@@ -36,7 +38,7 @@ const MarketCrashes = () => {
       bestScore: 0.847
     },
     {
-      id: 3,
+      id: "dotcom-2000",
       name: "Dot-com Bubble",
       code: "DOT00",
       date: "Mar 2000 - Oct 2002",
@@ -49,7 +51,7 @@ const MarketCrashes = () => {
       bestScore: null
     },
     {
-      id: 4,
+      id: "black-monday-1987",
       name: "Black Monday",
       code: "BLK87",
       date: "Oct 1987",
@@ -62,7 +64,7 @@ const MarketCrashes = () => {
       bestScore: 0.723
     },
     {
-      id: 5,
+      id: "volatility-2018",
       name: "Volatility Spike",
       code: "VOL18",
       date: "Jan 2018 - Dec 2018",
@@ -251,10 +253,17 @@ const MarketCrashes = () => {
                       )}
                     </div>
                     <div className="flex gap-4">
-                      <Button className="btn-terminal rounded-none">
+                      <Button 
+                        className="btn-terminal rounded-none"
+                        onClick={() => navigate(`/simulation/${scenario.id}`)}
+                      >
                         START SIMULATION
                       </Button>
-                      <Button variant="outline" className="rounded-none">
+                      <Button 
+                        variant="outline" 
+                        className="rounded-none"
+                        onClick={() => navigate(`/simulation/${scenario.id}`)}
+                      >
                         DETAILS
                       </Button>
                     </div>
