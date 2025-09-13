@@ -3,46 +3,29 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Navigation } from "@/components/Navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { QuizService, Quiz } from "@/services/quizService";
+import { useAuth } from "@/contexts/AuthContext";
 
 const DailyPuzzles = () => {
   const [activeTab, setActiveTab] = useState<'today' | 'archive' | 'leaderboard'>('today');
+  const { user, refreshUser } = useAuth();
+  const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+  const [selectedOptions, setSelectedOptions] = useState<{ [quizId: string]: number | null }>({});
+  const [submitting, setSubmitting] = useState<{ [quizId: string]: boolean }>({});
+  const [results, setResults] = useState<{ [quizId: string]: { correct: boolean; pointsAwarded: number } | null }>({});
+  const [quizLoading, setQuizLoading] = useState(true);
 
-  const todayPuzzles = [
-    {
-      id: 1,
-      title: "Portfolio Optimization",
-      difficulty: "Medium",
-      category: "Risk Management",
-      points: 150,
-      timeLimit: "45min",
-      description: "Optimize a portfolio of 20 assets to maximize Sharpe ratio while maintaining VaR constraints.",
-      completed: false,
-      progress: 0
-    },
-    {
-      id: 2,
-      title: "Black-Scholes Pricing",
-      difficulty: "Hard",
-      category: "Options",
-      points: 200,
-      timeLimit: "60min",
-      description: "Implement and validate Black-Scholes model for European options with dividend adjustments.",
-      completed: false,
-      progress: 0
-    },
-    {
-      id: 3,
-      title: "Monte Carlo Simulation",
-      difficulty: "Easy",
-      category: "Simulation",
-      points: 100,
-      timeLimit: "30min",
-      description: "Simulate 10,000 price paths for a stock using geometric Brownian motion.",
-      completed: true,
-      progress: 100
-    }
-  ];
+  // Fetch all today's quizzes on mount
+  useEffect(() => {
+    const fetchQuizzes = async () => {
+      setQuizLoading(true);
+      const qs = await QuizService.getTodaysQuizzes();
+      setQuizzes(qs);
+      setQuizLoading(false);
+    };
+    fetchQuizzes();
+  }, []);
 
   const archivePuzzles = [
     {
@@ -157,73 +140,75 @@ const DailyPuzzles = () => {
             </Button>
           </div>
 
-          {/* Today's Puzzles Tab */}
+          {/* Today's Quizzes Tab */}
           {activeTab === 'today' && (
             <div className="space-y-4">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-mono font-bold text-foreground">TODAY'S CHALLENGES</h2>
+                <h2 className="text-xl font-mono font-bold text-foreground">DAILY QUIZZES</h2>
                 <Badge variant="outline" className="border-accent/50 text-accent">
-                  RESET IN 14:32:15
+                  RESETS IN 1 DAY
                 </Badge>
               </div>
-
-              {todayPuzzles.map((puzzle) => (
-                <Card key={puzzle.id} className="card-terminal p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-lg font-mono text-foreground">{puzzle.title}</h3>
-                        <Badge 
-                          variant="outline" 
-                          className={`${
-                            puzzle.difficulty === 'Easy' ? 'border-success/50 text-success' :
-                            puzzle.difficulty === 'Medium' ? 'border-warning/50 text-warning' :
-                            'border-destructive/50 text-destructive'
-                          }`}
-                        >
-                          {puzzle.difficulty}
-                        </Badge>
-                        <Badge variant="outline" className="border-primary/50 text-primary">
-                          {puzzle.category}
-                        </Badge>
-                      </div>
-                      <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-                        {puzzle.description}
-                      </p>
-                      
-                      <div className="flex items-center gap-6 text-sm font-mono">
-                        <span className="text-accent">Points: {puzzle.points}</span>
-                        <span className="text-muted-foreground">Time: {puzzle.timeLimit}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {!puzzle.completed && puzzle.progress > 0 && (
+              {quizLoading ? (
+                <div className="text-center text-muted-foreground">Loading quizzes...</div>
+              ) : quizzes.length > 0 ? (
+                quizzes.map((quiz) => (
+                  <Card key={quiz.id} className="card-terminal p-6">
                     <div className="mb-4">
-                      <div className="flex justify-between text-sm font-mono mb-2">
-                        <span>Progress</span>
-                        <span>{puzzle.progress}%</span>
+                      <h3 className="text-lg font-mono text-foreground mb-2">{quiz.question}</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {quiz.options.map((option, idx) => (
+                          <Button
+                            key={idx}
+                            variant={selectedOptions[quiz.id] === idx ? 'default' : 'outline'}
+                            className="rounded-none w-full text-left"
+                            disabled={!!results[quiz.id] || submitting[quiz.id]}
+                            onClick={() => setSelectedOptions((prev) => ({ ...prev, [quiz.id]: idx }))}
+                          >
+                            {option}
+                          </Button>
+                        ))}
                       </div>
-                      <Progress value={puzzle.progress} className="h-2" />
                     </div>
-                  )}
-
-                  <div className="flex gap-4">
-                    {puzzle.completed ? (
-                      <Button variant="outline" className="rounded-none flex-1">
-                        VIEW SOLUTION
+                    <div className="flex items-center gap-4 mt-4">
+                      <span className="text-accent font-mono">Points: {quiz.points}</span>
+                      <Button
+                        className="btn-terminal rounded-none"
+                        disabled={selectedOptions[quiz.id] === null || selectedOptions[quiz.id] === undefined || submitting[quiz.id] || !!results[quiz.id]}
+                        onClick={async () => {
+                          if (!user || selectedOptions[quiz.id] === null || selectedOptions[quiz.id] === undefined) return;
+                          setSubmitting((prev) => ({ ...prev, [quiz.id]: true }));
+                          const res = await QuizService.submitAnswer({
+                            user,
+                            quizId: quiz.id,
+                            selectedOption: selectedOptions[quiz.id]!
+                          });
+                          setResults((prev) => ({ ...prev, [quiz.id]: res }));
+                          setSubmitting((prev) => ({ ...prev, [quiz.id]: false }));
+                          if (res.correct) {
+                            await refreshUser();
+                          }
+                        }}
+                      >
+                        Submit
                       </Button>
-                    ) : (
-                      <Button className="btn-terminal rounded-none flex-1">
-                        {puzzle.progress > 0 ? 'CONTINUE' : 'START PUZZLE'}
-                      </Button>
+                    </div>
+                    {results[quiz.id] && (
+                      <div className={`mt-6 p-4 rounded font-mono text-lg ${results[quiz.id]?.correct ? 'bg-success/10 text-success' : 'bg-destructive/10 text-destructive'}`}>
+                        {results[quiz.id]?.correct ? (
+                          <>
+                            Correct! +{results[quiz.id]?.pointsAwarded} points awarded.
+                          </>
+                        ) : (
+                          <>Incorrect. Better luck next time!</>
+                        )}
+                      </div>
                     )}
-                    <Button variant="outline" className="rounded-none">
-                      HINTS
-                    </Button>
-                  </div>
-                </Card>
-              ))}
+                  </Card>
+                ))
+              ) : (
+                <div className="text-center text-muted-foreground">No quizzes available for today.</div>
+              )}
             </div>
           )}
 
