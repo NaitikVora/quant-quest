@@ -1,82 +1,70 @@
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Trophy, Zap, Target, TrendingUp } from "lucide-react";
-import heroImage from "@/assets/hero-bg.jpg";
 
 export const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden hero-bg">
-      <div 
-        className="absolute inset-0 bg-cover bg-center opacity-20"
-        style={{ backgroundImage: `url(${heroImage})` }}
-      />
-      
-      <div className="relative z-10 container mx-auto px-6 text-center">
-        <div className="animate-slide-up">
-          <Badge variant="secondary" className="mb-6 text-lg px-4 py-2">
-            🎮 Chess.com meets Wall Street
-          </Badge>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
+      <div className="relative z-10 container mx-auto px-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="mb-8">
+            <p className="text-primary font-mono text-sm mb-4">QUANTITATIVE FINANCE PLATFORM</p>
+            <h1 className="text-5xl md:text-7xl font-mono font-bold mb-6 text-foreground">
+              QuantQuest
+            </h1>
+            <div className="h-px bg-primary w-32 mb-8"></div>
+          </div>
           
-          <h1 className="text-6xl md:text-8xl font-bold mb-8 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            QuantQuest
-          </h1>
-          
-          <p className="text-xl md:text-2xl text-muted-foreground mb-4 max-w-3xl mx-auto">
-            Master quantitative finance through <span className="text-accent font-semibold">gamified challenges</span>, 
-            <span className="text-success font-semibold"> real-time battles</span>, and 
-            <span className="text-primary font-semibold"> skill progression</span>.
+          <p className="text-lg font-mono text-muted-foreground mb-12 leading-relaxed">
+            Master quantitative finance through structured skill progression,
+            peer-to-peer challenges, and historical market simulations.
           </p>
           
-          <p className="text-lg text-muted-foreground mb-12 max-w-2xl mx-auto">
-            Progress through skill trees, compete in 1v1 trading duels, solve daily quant puzzles, 
-            and survive legendary market crashes. Are you ready to become a quant legend?
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
-            <Button size="lg" className="btn-hero text-lg px-8 py-4 rounded-xl">
-              <Zap className="mr-2 h-5 w-5" />
-              Start Your Journey
+          <div className="flex flex-col sm:flex-row gap-4 mb-20">
+            <Button 
+              size="lg" 
+              className="bg-primary text-primary-foreground hover:bg-primary/90 font-mono text-base px-8 py-6 h-auto rounded-none"
+            >
+              START SIMULATION
             </Button>
-            <Button variant="outline" size="lg" className="text-lg px-8 py-4 rounded-xl border-primary/30 hover:border-primary">
-              <Trophy className="mr-2 h-5 w-5" />
-              View Leaderboard
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="border-primary/50 text-primary hover:bg-primary/10 font-mono text-base px-8 py-6 h-auto rounded-none"
+            >
+              VIEW RANKINGS
             </Button>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4 animate-float">
-                <Target className="h-8 w-8 text-primary" />
-              </div>
-              <h3 className="font-semibold text-foreground">Skill Trees</h3>
-              <p className="text-sm text-muted-foreground">Unlock advanced strategies</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 font-mono text-sm">
+            <div className="border-l-2 border-primary pl-4">
+              <h3 className="text-foreground mb-2">SKILL PROGRESSION</h3>
+              <p className="text-muted-foreground">Structured learning paths from statistics to algorithmic trading</p>
             </div>
             
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent/10 mb-4 animate-float" style={{animationDelay: "0.5s"}}>
-                <Trophy className="h-8 w-8 text-accent" />
-              </div>
-              <h3 className="font-semibold text-foreground">1v1 Battles</h3>
-              <p className="text-sm text-muted-foreground">Real-time competitions</p>
+            <div className="border-l-2 border-primary pl-4">
+              <h3 className="text-foreground mb-2">PEER CHALLENGES</h3>
+              <p className="text-muted-foreground">Real-time competitive analysis on historical market data</p>
             </div>
             
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-success/10 mb-4 animate-float" style={{animationDelay: "1s"}}>
-                <Zap className="h-8 w-8 text-success" />
-              </div>
-              <h3 className="font-semibold text-foreground">Daily Puzzles</h3>
-              <p className="text-sm text-muted-foreground">Build core skills</p>
+            <div className="border-l-2 border-primary pl-4">
+              <h3 className="text-foreground mb-2">DAILY PUZZLES</h3>
+              <p className="text-muted-foreground">Build core competencies through targeted exercises</p>
             </div>
             
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-destructive/10 mb-4 animate-float" style={{animationDelay: "1.5s"}}>
-                <TrendingUp className="h-8 w-8 text-destructive" />
-              </div>
-              <h3 className="font-semibold text-foreground">Boss Battles</h3>
-              <p className="text-sm text-muted-foreground">Survive market crashes</p>
+            <div className="border-l-2 border-primary pl-4">
+              <h3 className="text-foreground mb-2">MARKET SIMULATIONS</h3>
+              <p className="text-muted-foreground">Test strategies against historical crashes and volatility</p>
             </div>
           </div>
         </div>
+      </div>
+      
+      {/* Subtle grid background */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `linear-gradient(hsl(var(--primary) / 0.3) 1px, transparent 1px),
+                           linear-gradient(90deg, hsl(var(--primary) / 0.3) 1px, transparent 1px)`,
+          backgroundSize: '50px 50px'
+        }}></div>
       </div>
     </section>
   );

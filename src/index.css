@@ -6,60 +6,58 @@
 
 @layer base {
   :root {
-    /* Gaming-inspired dark theme with financial credibility */
-    --background: 220 27% 8%;
-    --foreground: 210 40% 98%;
+    /* Retro terminal dark theme - Bloomberg/quant aesthetic */
+    --background: 0 0% 4%;
+    --foreground: 120 100% 88%;
 
-    --card: 220 27% 10%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 7%;
+    --card-foreground: 120 100% 88%;
 
-    --popover: 220 27% 12%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 120 100% 88%;
 
-    /* Deep navy primary with electric accents */
-    --primary: 221 83% 53%;
-    --primary-foreground: 210 40% 98%;
-    --primary-glow: 221 83% 65%;
+    /* Monochromatic green primary - terminal style */
+    --primary: 120 100% 40%;
+    --primary-foreground: 0 0% 4%;
+    --primary-glow: 120 100% 50%;
 
-    --secondary: 217 32% 17%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 120 100% 88%;
 
-    --muted: 217 32% 17%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 120 20% 60%;
 
-    /* Electric cyan for gains/success */
-    --accent: 180 100% 50%;
-    --accent-foreground: 220 27% 8%;
-    --accent-glow: 180 100% 70%;
+    /* Subtle accent - amber for highlights */
+    --accent: 45 100% 51%;
+    --accent-foreground: 0 0% 4%;
+    --accent-glow: 45 100% 60%;
 
-    /* Financial colors */
-    --success: 142 76% 36%;
-    --success-foreground: 210 40% 98%;
-    --success-glow: 142 76% 50%;
+    /* Status colors - muted */
+    --success: 120 40% 40%;
+    --success-foreground: 0 0% 98%;
+    --success-glow: 120 40% 50%;
 
-    --warning: 38 92% 50%;
-    --warning-foreground: 220 27% 8%;
+    --warning: 45 70% 50%;
+    --warning-foreground: 0 0% 4%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 217 32% 17%;
-    --input: 217 32% 17%;
-    --ring: 221 83% 53%;
+    --border: 120 20% 20%;
+    --input: 0 0% 12%;
+    --ring: 120 100% 40%;
 
     --radius: 0.75rem;
 
-    /* Gaming gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(221 83% 53%), hsl(221 83% 65%));
-    --gradient-success: linear-gradient(135deg, hsl(142 76% 36%), hsl(142 76% 50%));
-    --gradient-accent: linear-gradient(135deg, hsl(180 100% 50%), hsl(180 100% 70%));
-    --gradient-hero: linear-gradient(135deg, hsl(220 27% 8%) 0%, hsl(221 83% 53% / 0.1) 50%, hsl(220 27% 8%) 100%);
+    /* Minimal gradients - retro terminal */
+    --gradient-primary: linear-gradient(180deg, hsl(120 100% 40%), hsl(120 100% 30%));
+    --gradient-accent: linear-gradient(180deg, hsl(45 100% 51%), hsl(45 100% 41%));
+    --gradient-hero: linear-gradient(180deg, hsl(0 0% 4%) 0%, hsl(120 100% 40% / 0.02) 100%);
     
-    /* Gaming shadows and glows */
-    --shadow-primary: 0 0 20px hsl(221 83% 53% / 0.3);
-    --shadow-accent: 0 0 20px hsl(180 100% 50% / 0.3);
-    --shadow-success: 0 0 20px hsl(142 76% 36% / 0.3);
-    --glow-subtle: 0 0 40px hsl(221 83% 53% / 0.1);
+    /* Subtle terminal glows */
+    --shadow-primary: 0 0 10px hsl(120 100% 40% / 0.2);
+    --shadow-accent: 0 0 10px hsl(45 100% 51% / 0.2);
+    --glow-subtle: 0 0 20px hsl(120 100% 40% / 0.05);
 
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -132,71 +130,37 @@
 }
 
 @layer components {
-  /* Gaming Button Variants */
-  .btn-hero {
-    @apply bg-gradient-to-r from-primary to-primary-glow text-primary-foreground 
-           hover:shadow-[var(--shadow-primary)] transition-all duration-300 
-           transform hover:scale-105 hover:brightness-110;
+  /* Minimal Terminal Button */
+  .btn-terminal {
+    @apply bg-primary text-primary-foreground font-mono
+           hover:bg-primary/90 transition-all duration-200;
   }
   
-  .btn-accent {
-    @apply bg-gradient-to-r from-accent to-accent-glow text-accent-foreground
-           hover:shadow-[var(--shadow-accent)] transition-all duration-300
-           transform hover:scale-105;
-  }
-  
-  .btn-success {
-    @apply bg-gradient-to-r from-success to-success-glow text-success-foreground
-           hover:shadow-[var(--shadow-success)] transition-all duration-300
-           transform hover:scale-105;
+  /* Retro Cards */
+  .card-terminal {
+    @apply bg-card border border-border/50 font-mono
+           hover:border-primary/50 transition-all duration-300;
   }
 
-  /* Gaming Cards */
-  .card-glow {
-    @apply bg-card/50 backdrop-blur-sm border border-border/50 
-           hover:shadow-[var(--glow-subtle)] transition-all duration-500
-           hover:border-primary/30;
-  }
-
-  /* Skill Tree Node */
+  /* Skill Node - Simplified */
   .skill-node {
-    @apply relative w-16 h-16 rounded-full border-2 border-border
+    @apply relative w-12 h-12 border border-border
            flex items-center justify-center cursor-pointer
-           transition-all duration-300 hover:scale-110;
+           transition-all duration-200 hover:border-primary;
   }
   
   .skill-node.unlocked {
-    @apply bg-gradient-to-br from-success to-success-glow border-success
-           shadow-[var(--shadow-success)] text-success-foreground;
+    @apply bg-primary/20 border-primary text-primary;
   }
   
   .skill-node.locked {
-    @apply bg-muted border-muted-foreground/30 text-muted-foreground;
-  }
-
-  /* Animated Background */
-  .hero-bg {
-    background: var(--gradient-hero);
-    position: relative;
-  }
-  
-  .hero-bg::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      radial-gradient(circle at 25% 25%, hsl(221 83% 53% / 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 75% 75%, hsl(180 100% 50% / 0.1) 0%, transparent 50%);
-    animation: pulse-glow 4s ease-in-out infinite alternate;
+    @apply bg-transparent border-muted-foreground/30 text-muted-foreground;
   }
 
   /* Leaderboard Rank Colors */
-  .rank-1 { @apply text-yellow-400; }
-  .rank-2 { @apply text-gray-300; }
-  .rank-3 { @apply text-amber-600; }
+  .rank-1 { @apply text-accent; }
+  .rank-2 { @apply text-muted-foreground; }
+  .rank-3 { @apply text-warning; }
 }
 
 @layer utilities {
