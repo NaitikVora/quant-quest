@@ -518,40 +518,36 @@ const MarketCrashSimulation: React.FC<MarketCrashSimulationProps> = ({
           </Card>
 
           {/* Current Stats */}
-          <Card className="bg-gray-800/50 border-red-500/30 p-4">
+          <Card className="bg-gray-800/50 border-red-500/30 p-4 w-full overflow-x-auto">
             <h3 className="text-lg font-mono font-bold text-white mb-4">CURRENT STATS</h3>
-            
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span className="text-gray-300 font-mono">Current Price:</span>
-                <span className={`font-mono font-bold ${currentPrice < 100 ? 'text-red-400' : 'text-green-400'}`}>
+            <div className="space-y-3 min-w-0">
+              <div className="flex flex-wrap justify-between min-w-0">
+                <span className="text-gray-300 font-mono truncate">Current Price:</span>
+                <span className={`font-mono font-bold ${currentPrice < 100 ? 'text-red-400' : 'text-green-400'} truncate`}>
                   ${currentPrice.toFixed(2)}
                 </span>
               </div>
-              
-              <div className="flex justify-between">
-                <span className="text-gray-300 font-mono">Portfolio Value:</span>
-                <span className={`font-mono font-bold ${portfolioValue < 100000 ? 'text-red-400' : 'text-green-400'}`}>
+              <div className="flex flex-wrap justify-between min-w-0">
+                <span className="text-gray-300 font-mono truncate">Portfolio Value:</span>
+                <span className={`font-mono font-bold ${portfolioValue < 100000 ? 'text-red-400' : 'text-green-400'} truncate`}>
                   ${portfolioValue.toLocaleString()}
                 </span>
               </div>
-              
-              <div className="flex justify-between">
-                <span className="text-gray-300 font-mono">Total Return:</span>
-                <span className={`font-mono font-bold ${totalReturn < 0 ? 'text-red-400' : 'text-green-400'}`}>
+              <div className="flex flex-wrap justify-between min-w-0">
+                <span className="text-gray-300 font-mono truncate">Total Return:</span>
+                <span className={`font-mono font-bold ${totalReturn < 0 ? 'text-red-400' : 'text-green-400'} truncate`}>
                   {totalReturn.toFixed(2)}%
                 </span>
               </div>
-              
-              <div className="flex justify-between">
-                <span className="text-gray-300 font-mono">Strategy Outcome:</span>
+              <div className="flex flex-wrap justify-between min-w-0 items-center">
+                <span className="text-gray-300 font-mono truncate">Strategy Outcome:</span>
                 <Badge 
                   variant="outline" 
-                  className={`${
+                  className={`$${
                     strategyOutcome === 'profit' ? 'border-green-500 text-green-400' :
                     strategyOutcome === 'loss' ? 'border-red-500 text-red-400' :
                     'border-gray-500 text-gray-400'
-                  }`}
+                  } truncate`}
                 >
                   {strategyOutcome.toUpperCase()}
                 </Badge>

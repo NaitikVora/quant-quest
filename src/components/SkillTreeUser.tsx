@@ -374,8 +374,8 @@ export const SkillTreeUser = () => {
         {/* Skill Details Modal */}
         {selectedSkill && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <Card className="card-terminal max-w-2xl w-full max-h-[80vh] overflow-y-auto">
-              <div className="p-6">
+            <Card className="card-terminal max-w-2xl w-full max-h-[80vh] flex flex-col overflow-hidden">
+              <div className="p-6 flex flex-col h-full">
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="text-xl font-mono font-bold text-primary">
                     SKILL DETAILS
@@ -388,63 +388,61 @@ export const SkillTreeUser = () => {
                     ✕
                   </Button>
                 </div>
-                
-                {(() => {
-                  const skill = getSkillById(selectedSkill);
-                  if (!skill) return null;
-                  
-                  const category = skillCategories.find(cat => 
-                    cat.skills.some(s => s.id === selectedSkill)
-                  );
-                  const userProgress = category ? 
-                    getSkillProgress(category.categoryKey, skill.id.toString()) : 
-                    { level: 1, xp: 0, maxXp: 100, unlocked: false };
-                  
-                  return (
-                    <div className="space-y-4">
-                      <div>
-                        <h4 className="text-lg font-mono font-bold text-foreground mb-2">
-                          {skill.name}
-                        </h4>
-                        <p className="text-muted-foreground text-sm">
-                          {skill.description}
-                        </p>
-                      </div>
-                      
-                      {userProgress.unlocked && (
+                {/* Scrollable content area below progress bar */}
+                <div className="flex-1 min-h-0 overflow-y-auto">
+                  {(() => {
+                    const skill = getSkillById(selectedSkill);
+                    if (!skill) return null;
+                    const category = skillCategories.find(cat => 
+                      cat.skills.some(s => s.id === selectedSkill)
+                    );
+                    const userProgress = category ? 
+                      getSkillProgress(category.categoryKey, skill.id.toString()) : 
+                      { level: 1, xp: 0, maxXp: 100, unlocked: false };
+                    return (
+                      <div className="space-y-4">
+                        <div>
+                          <h4 className="text-lg font-mono font-bold text-foreground mb-2">
+                            {skill.name}
+                          </h4>
+                          <p className="text-muted-foreground text-sm">
+                            {skill.description}
+                          </p>
+                        </div>
+                        {userProgress.unlocked && (
+                          <div>
+                            <h5 className="font-mono font-semibold text-foreground mb-2">
+                              PROGRESS
+                            </h5>
+                            <div className="space-y-2">
+                              <div className="flex justify-between text-sm">
+                                <span>Level {userProgress.level}</span>
+                                <span>{userProgress.xp}/{userProgress.maxXp} XP</span>
+                              </div>
+                              <Progress 
+                                value={(userProgress.xp / userProgress.maxXp) * 100} 
+                                className="h-2"
+                              />
+                            </div>
+                          </div>
+                        )}
                         <div>
                           <h5 className="font-mono font-semibold text-foreground mb-2">
-                            PROGRESS
+                            BENEFITS
                           </h5>
-                          <div className="space-y-2">
-                            <div className="flex justify-between text-sm">
-                              <span>Level {userProgress.level}</span>
-                              <span>{userProgress.xp}/{userProgress.maxXp} XP</span>
-                            </div>
-                            <Progress 
-                              value={(userProgress.xp / userProgress.maxXp) * 100} 
-                              className="h-2"
-                            />
-                          </div>
+                          <ul className="space-y-1">
+                            {skill.benefits.map((benefit, index) => (
+                              <li key={index} className="text-sm text-muted-foreground flex items-center gap-2">
+                                <span className="text-primary">•</span>
+                                {benefit}
+                              </li>
+                            ))}
+                          </ul>
                         </div>
-                      )}
-                      
-                      <div>
-                        <h5 className="font-mono font-semibold text-foreground mb-2">
-                          BENEFITS
-                        </h5>
-                        <ul className="space-y-1">
-                          {skill.benefits.map((benefit, index) => (
-                            <li key={index} className="text-sm text-muted-foreground flex items-center gap-2">
-                              <span className="text-primary">•</span>
-                              {benefit}
-                            </li>
-                          ))}
-                        </ul>
                       </div>
-                    </div>
-                  );
-                })()}
+                    );
+                  })()}
+                </div>
               </div>
             </Card>
           </div>
