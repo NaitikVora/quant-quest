@@ -1,15 +1,15 @@
 import { Hero } from "@/components/Hero";
-import { SkillTree } from "@/components/SkillTree";
+import { SkillPreview } from "@/components/SkillPreview";
 import { Features } from "@/components/Features";
-import { Leaderboard } from "@/components/Leaderboard";
+import { LeaderboardPreview } from "@/components/LeaderboardPreview";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Hero />
-      <SkillTree />
+      <SkillPreview />
       <Features />
-      <Leaderboard />
+      <LeaderboardPreview />
     </div>
   );
 };

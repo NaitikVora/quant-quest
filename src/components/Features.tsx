@@ -1,27 +1,34 @@
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 export const Features = () => {
+  const navigate = useNavigate();
+  
   const features = [
     {
       id: 1,
       title: "1V1 CHALLENGES",
       code: "PVP",
       description: "Head-to-head competition on identical market data. Performance measured by Sharpe ratio and max drawdown.",
-      stats: "2,341 ACTIVE MATCHES"
+      stats: "2,341 ACTIVE MATCHES",
+      route: "/1v1"
     },
     {
       id: 2,
       title: "DAILY PUZZLES",
       code: "DLY",
       description: "Backtesting challenges, risk calculations, and strategy optimization problems.",
-      stats: "98% COMPLETION RATE"
+      stats: "98% COMPLETION RATE",
+      route: "/daily-puzzles"
     },
     {
       id: 3,
       title: "MARKET CRASHES",
       code: "BSS",
       description: "Navigate historical crashes. Test strategies against 2008, 2020, and other volatility events.",
-      stats: "12 SCENARIOS AVAILABLE"
+      stats: "12 SCENARIOS AVAILABLE",
+      route: "/market-crashes"
     }
   ];
 
@@ -51,8 +58,17 @@ export const Features = () => {
                   </p>
                 </div>
               </div>
-              <div className="text-xs text-accent">
-                {feature.stats}
+              <div className="flex items-center justify-between">
+                <div className="text-xs text-accent">
+                  {feature.stats}
+                </div>
+                <Button 
+                  size="sm" 
+                  className="btn-terminal rounded-none"
+                  onClick={() => navigate(feature.route)}
+                >
+                  ENTER
+                </Button>
               </div>
             </Card>
           ))}
