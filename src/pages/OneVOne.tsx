@@ -4,11 +4,13 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Navigation } from "@/components/Navigation";
 import ArcadeBattle from "@/components/ArcadeBattle";
+import QuantAlgorithmCompetition from "@/components/QuantAlgorithmCompetition";
 import { useState } from "react";
 
 const OneVOne = () => {
   const [activeTab, setActiveTab] = useState<'lobby' | 'active' | 'history'>('lobby');
   const [showArcadeBattle, setShowArcadeBattle] = useState(false);
+  const [showQuantCompetition, setShowQuantCompetition] = useState(false);
 
   const lobbyMatches = [
     {
@@ -79,9 +81,22 @@ const OneVOne = () => {
     setShowArcadeBattle(false);
   };
 
+  const handleStartQuantCompetition = () => {
+    setShowQuantCompetition(true);
+  };
+
+  const handleReturnFromCompetition = () => {
+    setShowQuantCompetition(false);
+  };
+
   // Show arcade battle if active
   if (showArcadeBattle) {
     return <ArcadeBattle onReturnToLobby={handleReturnToLobby} />;
+  }
+
+  // Show quant competition if active
+  if (showQuantCompetition) {
+    return <QuantAlgorithmCompetition onBack={handleReturnFromCompetition} />;
   }
 
   return (
@@ -174,45 +189,84 @@ const OneVOne = () => {
 
           {/* Lobby Tab */}
           {activeTab === 'lobby' && (
-            <div className="space-y-4">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-mono font-bold text-foreground">AVAILABLE MATCHES</h2>
-                <Button 
-                  className="btn-terminal rounded-none"
-                  onClick={handleStartArcadeBattle}
-                >
-                  CREATE MATCH
-                </Button>
+            <div className="space-y-6">
+              {/* Quant Algorithm Competition Section */}
+              <div className="bg-gradient-to-r from-cyan-600/20 to-purple-600/20 border-2 border-cyan-400/30 rounded-lg p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <h2 className="text-2xl font-mono font-bold text-cyan-400 mb-2">
+                      🚀 QUANT ALGORITHM COMPETITION 🚀
+                    </h2>
+                    <p className="text-sm text-cyan-300 font-mono">
+                      Head-to-head algorithm battles with real market datasets. Configure your strategy, 
+                      optimize parameters, and watch your algorithms compete in real-time!
+                    </p>
+                  </div>
+                  <Button
+                    className="bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white font-mono font-bold px-6 py-3 rounded-lg border-2 border-cyan-400"
+                    onClick={handleStartQuantCompetition}
+                  >
+                    START COMPETITION
+                  </Button>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm font-mono">
+                  <div className="bg-gray-800/50 border border-cyan-500/30 rounded p-3">
+                    <h3 className="text-cyan-400 font-bold mb-1">Phase 1: Dataset Selection</h3>
+                    <p className="text-gray-300">Choose from SPY 2023, BTC 2022, or VIX 2020</p>
+                  </div>
+                  <div className="bg-gray-800/50 border border-purple-500/30 rounded p-3">
+                    <h3 className="text-purple-400 font-bold mb-1">Phase 2: Algorithm Config</h3>
+                    <p className="text-gray-300">Configure MA periods, stop-loss, take-profit</p>
+                  </div>
+                  <div className="bg-gray-800/50 border border-pink-500/30 rounded p-3">
+                    <h3 className="text-pink-400 font-bold mb-1">Phase 3: Live Battle</h3>
+                    <p className="text-gray-300">Real-time performance racing with animations</p>
+                  </div>
+                </div>
               </div>
 
-              {lobbyMatches.map((match) => (
-                <Card key={match.id} className="card-terminal p-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-6">
-                      <div>
-                        <h3 className="text-lg font-mono text-foreground mb-1">{match.opponent}</h3>
-                        <p className="text-sm text-muted-foreground">Rating: {match.rating}</p>
+              {/* Available Matches Section */}
+              <div>
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-xl font-mono font-bold text-foreground">AVAILABLE MATCHES</h2>
+                  <Button 
+                    className="btn-terminal rounded-none"
+                    onClick={handleStartQuantCompetition}
+                  >
+                    CREATE MATCH
+                  </Button>
+                </div>
+
+                {lobbyMatches.map((match) => (
+                  <Card key={match.id} className="card-terminal p-6">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-6">
+                        <div>
+                          <h3 className="text-lg font-mono text-foreground mb-1">{match.opponent}</h3>
+                          <p className="text-sm text-muted-foreground">Rating: {match.rating}</p>
+                        </div>
+                        <div className="text-sm text-muted-foreground">
+                          <p>Dataset: {match.dataset}</p>
+                          <p>Time Limit: {match.timeLimit}</p>
+                        </div>
                       </div>
-                      <div className="text-sm text-muted-foreground">
-                        <p>Dataset: {match.dataset}</p>
-                        <p>Time Limit: {match.timeLimit}</p>
+                      <div className="flex items-center gap-4">
+                        <Badge variant="outline" className="border-primary/50 text-primary">
+                          {match.status.toUpperCase()}
+                        </Badge>
+                        <Button 
+                          size="sm" 
+                          className="btn-terminal rounded-none"
+                          onClick={handleStartQuantCompetition}
+                        >
+                          JOIN
+                        </Button>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4">
-                      <Badge variant="outline" className="border-primary/50 text-primary">
-                        {match.status.toUpperCase()}
-                      </Badge>
-                      <Button 
-                        size="sm" 
-                        className="btn-terminal rounded-none"
-                        onClick={handleStartArcadeBattle}
-                      >
-                        JOIN
-                      </Button>
-                    </div>
-                  </div>
-                </Card>
-              ))}
+                  </Card>
+                ))}
+              </div>
             </div>
           )}
 
@@ -254,14 +308,14 @@ const OneVOne = () => {
                   <div className="flex gap-4">
                     <Button 
                       className="btn-terminal rounded-none flex-1"
-                      onClick={handleStartArcadeBattle}
+                      onClick={handleStartQuantCompetition}
                     >
                       CONTINUE MATCH
                     </Button>
                     <Button 
                       variant="outline" 
                       className="rounded-none"
-                      onClick={handleStartArcadeBattle}
+                      onClick={handleStartQuantCompetition}
                     >
                       SPECTATE
                     </Button>
