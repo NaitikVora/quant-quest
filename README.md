@@ -128,4 +128,42 @@ We don’t just train better traders—we train sharper thinkers, problem solver
 - **Leaderboard scaling**: Use Redis sorted sets for real-time leaderboard updates.  
 - **PvP Challenges**: WebSockets for low-latency head-to-head games.  
 - **Market Data**: Integrate APIs (Polygon.io, Alpha Vantage, Tiingo) for realistic datasets.  
-- **Future Institutional Needs**: Keep Python microservices modular so advanced quant toolkits can plug in easily.  
+- **Future Institutional Needs**: Keep Python microservices modular so advanced quant toolkits can plug in easily.
+
+---
+
+## 🚀 Quick Start
+
+1. **Clone & Install**
+   ```bash
+   git clone https://github.com/your-username/quant-quest.git
+   cd quant-quest
+   npm install
+   ```
+
+2. **Set up Firebase (Optional)**
+   To enable user authentication and data persistence:
+   
+   a. Create a Firebase project at [console.firebase.google.com](https://console.firebase.google.com/)
+   
+   b. Create a `.env.local` file in the root directory:
+   ```bash
+   VITE_FIREBASE_API_KEY=your_api_key_here
+   VITE_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
+   VITE_FIREBASE_PROJECT_ID=your_project_id
+   VITE_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com
+   VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+   VITE_FIREBASE_APP_ID=your_app_id
+   ```
+   
+   c. Enable Authentication (Email/Password) and Firestore Database in Firebase Console
+   
+   **Note**: The app works without Firebase - authentication features will be disabled with helpful console messages.
+
+3. **Run Development Server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open Browser**
+   Navigate to `http://localhost:5173`  

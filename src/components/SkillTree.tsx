@@ -2,10 +2,70 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { UserService } from "@/services/userService";
+import { AchievementService } from "@/services/achievementService";
+import { User, UserSkills } from "@/types/user";
 
 export const SkillTree = () => {
+  const { user, refreshUser } = useAuth();
   const [selectedSkill, setSelectedSkill] = useState<number | null>(null);
+  const [userSkills, setUserSkills] = useState<UserSkills | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      setUserSkills(user.skills);
+    }
+  }, [user]);
+
+  const addSkillXP = async (category: string, skillId: string, xp: number) => {
+    if (!user) return;
+    
+    try {
+      setLoading(true);
+      await UserService.addSkillXP(user.uid, category, skillId, xp);
+      
+      // Check for achievements
+      const unlockedAchievements = await AchievementService.checkAchievements(user, {
+        skillUpdate: { category, skillId, xp }
+      });
+      
+      // Refresh user data
+      await refreshUser();
+      
+      if (unlockedAchievements.length > 0) {
+        // Show achievement notification
+        console.log('Unlocked achievements:', unlockedAchievements);
+      }
+    } catch (error) {
+      console.error('Error adding skill XP:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getSkillProgress = (category: string, skillId: string) => {
+    if (!userSkills) return { level: 1, xp: 0, maxXp: 100, unlocked: false };
+    
+    const categorySkills = userSkills[category as keyof UserSkills];
+    if (!categorySkills || !categorySkills.skills) {
+      return { level: 1, xp: 0, maxXp: 100, unlocked: false };
+    }
+    
+    const skill = categorySkills.skills[skillId];
+    if (!skill) {
+      return { level: 1, xp: 0, maxXp: 100, unlocked: false };
+    }
+    
+    return {
+      level: skill.level,
+      xp: skill.xp,
+      maxXp: skill.level * 100,
+      unlocked: skill.unlocked
+    };
+  };
 
   const skillCategories = [
     {

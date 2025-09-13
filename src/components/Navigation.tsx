@@ -1,9 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { AuthModal } from "@/components/auth/AuthModal";
+import { UserMenu } from "@/components/auth/UserMenu";
+import { LogIn, User } from "lucide-react";
 
 export const Navigation = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuth();
+  const [authModalOpen, setAuthModalOpen] = useState(false);
 
   const navItems = [
     { path: "/", label: "HOME", code: "HOME" },
@@ -26,21 +33,46 @@ export const Navigation = () => {
             <div className="h-px bg-primary w-8"></div>
           </div>
           
-          <div className="flex gap-2 font-mono">
-            {navItems.map((item) => (
-              <Button
-                key={item.path}
-                variant={location.pathname === item.path ? "default" : "ghost"}
-                size="sm"
-                onClick={() => navigate(item.path)}
-                className="rounded-none text-xs"
-              >
-                {item.label}
-              </Button>
-            ))}
+          <div className="flex items-center gap-4">
+            <div className="flex gap-2 font-mono">
+              {navItems.map((item) => (
+                <Button
+                  key={item.path}
+                  variant={location.pathname === item.path ? "default" : "ghost"}
+                  size="sm"
+                  onClick={() => navigate(item.path)}
+                  className="rounded-none text-xs"
+                >
+                  {item.label}
+                </Button>
+              ))}
+            </div>
+            
+            {/* Authentication Section */}
+            <div className="flex items-center gap-2">
+              {user ? (
+                <UserMenu />
+              ) : (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setAuthModalOpen(true)}
+                  className="rounded-none text-xs font-mono"
+                >
+                  <LogIn className="mr-2 h-3 w-3" />
+                  SIGN IN
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </div>
+      
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={authModalOpen} 
+        onClose={() => setAuthModalOpen(false)} 
+      />
     </nav>
   );
 };
