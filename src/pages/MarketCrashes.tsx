@@ -464,4 +464,13 @@ const MarketCrashes = () => {
   );
 };
 
-export default MarketCrashes;
+import { Footer } from "@/components/Footer";
+
+const MarketCrashesWithFooter = () => (
+  <>
+    <MarketCrashes />
+    <Footer />
+  </>
+);
+
+export default MarketCrashesWithFooter;

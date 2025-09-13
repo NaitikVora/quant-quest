@@ -26,12 +26,13 @@ export const Header = () => {
 
 
   const navItems = [
-    { path: "/", label: "HOME", icon: Zap },
-    { path: "/skill-progression", label: "SKILLS", icon: Brain },
-    { path: "/leaderboard", label: "LEADERBOARD", icon: Trophy },
-    { path: "/1v1", label: "1V1 CHALLENGES", icon: Sword },
-    { path: "/daily-puzzles", label: "DAILY PUZZLES", icon: Puzzle },
-    { path: "/market-crashes", label: "MARKET CRASHES", icon: TrendingDown }
+  { path: "/", label: "HOME", icon: Zap },
+  { path: "/skill-progression", label: "SKILLS", icon: Brain },
+  { path: "/leaderboard", label: "LEADERBOARD", icon: Trophy },
+  { path: "/1v1", label: "1V1 CHALLENGES", icon: Sword },
+  { path: "/daily-puzzles", label: "DAILY PUZZLES", icon: Puzzle },
+  { path: "/market-crashes", label: "MARKET CRASHES", icon: TrendingDown },
+  { path: "/community", label: "COMMUNITY", icon: Target }
   ];
 
   return (

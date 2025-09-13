@@ -18,7 +18,8 @@ export const Navigation = () => {
     { path: "/leaderboard", label: "LEADERBOARD", code: "RANK" },
     { path: "/1v1", label: "1V1 CHALLENGES", code: "PVP" },
     { path: "/daily-puzzles", label: "DAILY PUZZLES", code: "DLY" },
-    { path: "/market-crashes", label: "MARKET CRASHES", code: "BSS" }
+    { path: "/market-crashes", label: "MARKET CRASHES", code: "BSS" },
+    { path: "/community", label: "COMMUNITY", code: "COMM" }
   ];
 
   return (

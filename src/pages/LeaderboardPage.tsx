@@ -546,4 +546,13 @@ const LeaderboardPage = () => {
   );
 };
 
-export default LeaderboardPage;
+import { Footer } from "@/components/Footer";
+
+const LeaderboardPageWithFooter = () => (
+  <>
+    <LeaderboardPage />
+    <Footer />
+  </>
+);
+
+export default LeaderboardPageWithFooter;

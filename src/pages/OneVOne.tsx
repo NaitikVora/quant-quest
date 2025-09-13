@@ -378,4 +378,13 @@ const OneVOne = () => {
   );
 };
 
-export default OneVOne;
+import { Footer } from "@/components/Footer";
+
+const OneVOneWithFooter = () => (
+  <>
+    <OneVOne />
+    <Footer />
+  </>
+);
+
+export default OneVOneWithFooter;

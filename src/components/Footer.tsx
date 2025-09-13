@@ -18,7 +18,8 @@ export const Footer = () => {
       { label: 'Features', path: '/#features' },
       { label: 'Skills', path: '/skill-progression' },
       { label: 'Leaderboard', path: '/leaderboard' },
-      { label: '1v1 Challenges', path: '/1v1' }
+      { label: '1v1 Challenges', path: '/1v1' },
+      { label: 'Community', path: '/community' }
     ],
     learn: [
       { label: 'Documentation', href: '#' },
