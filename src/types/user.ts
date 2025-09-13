@@ -48,6 +48,7 @@ export interface UserStats {
   rankPoints: number;
   puzzlesCompleted: number;
   puzzlesSolved: number;
+  puzzlePoints: number;
   puzzleAccuracy: number;
   currentStreak: number;
   longestPuzzleStreak: number;
@@ -306,6 +307,7 @@ export function getDefaultUser({
       rankPoints: 0,
       puzzlesCompleted: 0,
       puzzlesSolved: 0,
+      puzzlePoints: 0,
       puzzleAccuracy: 0,
       currentStreak: 0,
       longestPuzzleStreak: 0
