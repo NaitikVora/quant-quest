@@ -9,6 +9,31 @@ To democratize quantitative finance education by making it engaging, hands-on, a
 
 ---
 
+## 🤖 Coach Qunal - AI Chatbot Integration
+
+QuantQuest now features **Coach Qunal**, an AI-powered quantitative finance coach powered by Anthropic's Claude API. Coach Qunal provides personalized guidance, answers questions, and helps users navigate their quant finance learning journey.
+
+### Setup Instructions
+
+1. **Get your Anthropic API Key:**
+   - Visit [Anthropic Console](https://console.anthropic.com/)
+   - Create an account and generate an API key
+
+2. **Configure Environment Variables:**
+   Create a `.env` file in the project root with:
+   ```bash
+   VITE_ANTHROPIC_API_KEY=your_anthropic_api_key_here
+   ```
+
+3. **Features:**
+   - Floating chat widget (bottom-right corner)
+   - Session-based conversation history
+   - Rate limiting and error handling
+   - Responsive design for mobile/desktop
+   - Expert quantitative finance guidance
+
+---
+
 ## ⚠️ The Problem  
 - **95% of trading education is noise**: influencer-driven, anecdotal, or flat-out unprofitable.  
 - **Current simulators are shallow**: focus on guessing stock prices instead of building real quantitative skills.  
