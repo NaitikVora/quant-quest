@@ -3,11 +3,14 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Navigation } from "@/components/Navigation";
+import MarketCrashSimulation from "@/components/MarketCrashSimulation";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const MarketCrashes = () => {
   const [activeTab, setActiveTab] = useState<'scenarios' | 'simulation' | 'results'>('scenarios');
+  const [selectedScenario, setSelectedScenario] = useState<any>(null);
+  const [simulationResults, setSimulationResults] = useState<any>(null);
   const navigate = useNavigate();
 
   const crashScenarios = [
@@ -86,32 +89,31 @@ const MarketCrashes = () => {
     leverage: "1x"
   };
 
-  const simulationResults = [
-    {
-      metric: "Total Return",
-      value: "-12.4%",
-      benchmark: "-33.9%",
-      outperformance: "+21.5%"
-    },
-    {
-      metric: "Sharpe Ratio",
-      value: "-0.34",
-      benchmark: "-0.89",
-      outperformance: "+0.55"
-    },
-    {
-      metric: "Max Drawdown",
-      value: "-18.7%",
-      benchmark: "-33.9%",
-      outperformance: "+15.2%"
-    },
-    {
-      metric: "Volatility",
-      value: "36.2%",
-      benchmark: "76.4%",
-      outperformance: "-40.2%"
-    }
-  ];
+  const handleStartSimulation = (scenario: any) => {
+    setSelectedScenario(scenario);
+  };
+
+  const handleSimulationComplete = (results: any) => {
+    setSimulationResults(results);
+    setSelectedScenario(null);
+    setActiveTab('results');
+  };
+
+  const handleBackToScenarios = () => {
+    setSelectedScenario(null);
+    setSimulationResults(null);
+  };
+
+  // Show simulation if scenario is selected
+  if (selectedScenario) {
+    return (
+      <MarketCrashSimulation
+        scenario={selectedScenario}
+        onComplete={handleSimulationComplete}
+        onBack={handleBackToScenarios}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -255,7 +257,7 @@ const MarketCrashes = () => {
                     <div className="flex gap-4">
                       <Button 
                         className="btn-terminal rounded-none"
-                        onClick={() => navigate(`/simulation/${scenario.id}`)}
+                        onClick={() => handleStartSimulation(scenario)}
                       >
                         START SIMULATION
                       </Button>
@@ -348,27 +350,63 @@ const MarketCrashes = () => {
             <div className="space-y-4">
               <h2 className="text-xl font-mono font-bold text-foreground mb-6">SIMULATION RESULTS</h2>
 
-              <Card className="card-terminal p-6">
-                <h3 className="text-lg font-mono text-foreground mb-4">PERFORMANCE METRICS</h3>
-                <div className="space-y-4">
-                  {simulationResults.map((result, index) => (
-                    <div key={index} className="flex items-center justify-between py-3 border-b border-border/30 last:border-0">
+              {simulationResults ? (
+                <Card className="card-terminal p-6">
+                  <h3 className="text-lg font-mono text-foreground mb-4">PERFORMANCE METRICS</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between py-3 border-b border-border/30">
                       <div className="flex-1">
-                        <h4 className="font-mono text-foreground mb-1">{result.metric}</h4>
-                        <p className="text-sm text-muted-foreground">Benchmark: {result.benchmark}</p>
+                        <h4 className="font-mono text-foreground mb-1">Total Return</h4>
+                        <p className="text-sm text-muted-foreground">Scenario: {simulationResults.scenario}</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-mono text-lg font-bold text-foreground">{result.value}</p>
-                        <p className={`text-sm font-mono ${
-                          result.outperformance.startsWith('+') ? 'text-success' : 'text-destructive'
-                        }`}>
-                          {result.outperformance}
+                        <p className={`font-mono text-lg font-bold ${simulationResults.totalReturn < 0 ? 'text-destructive' : 'text-success'}`}>
+                          {simulationResults.totalReturn.toFixed(2)}%
                         </p>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </Card>
+                    
+                    <div className="flex items-center justify-between py-3 border-b border-border/30">
+                      <div className="flex-1">
+                        <h4 className="font-mono text-foreground mb-1">Final Portfolio Value</h4>
+                        <p className="text-sm text-muted-foreground">Started with: $100,000</p>
+                      </div>
+                      <div className="text-right">
+                        <p className={`font-mono text-lg font-bold ${simulationResults.finalValue < 100000 ? 'text-destructive' : 'text-success'}`}>
+                          ${simulationResults.finalValue.toLocaleString()}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between py-3 border-b border-border/30">
+                      <div className="flex-1">
+                        <h4 className="font-mono text-foreground mb-1">Maximum Drawdown</h4>
+                        <p className="text-sm text-muted-foreground">Worst single-day loss</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-mono text-lg font-bold text-destructive">
+                          {simulationResults.maxDrawdown.toFixed(2)}%
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              ) : (
+                <Card className="card-terminal p-6">
+                  <div className="text-center py-8">
+                    <h3 className="text-lg font-mono text-foreground mb-4">NO RESULTS YET</h3>
+                    <p className="text-muted-foreground font-mono mb-4">
+                      Complete a simulation to see your results here.
+                    </p>
+                    <Button 
+                      className="btn-terminal rounded-none"
+                      onClick={() => setActiveTab('scenarios')}
+                    >
+                      START SIMULATION
+                    </Button>
+                  </div>
+                </Card>
+              )}
 
               <Card className="card-terminal p-6">
                 <h3 className="text-lg font-mono text-foreground mb-4">PORTFOLIO ANALYSIS</h3>

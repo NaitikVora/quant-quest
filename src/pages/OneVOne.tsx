@@ -3,10 +3,12 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Navigation } from "@/components/Navigation";
+import ArcadeBattle from "@/components/ArcadeBattle";
 import { useState } from "react";
 
 const OneVOne = () => {
   const [activeTab, setActiveTab] = useState<'lobby' | 'active' | 'history'>('lobby');
+  const [showArcadeBattle, setShowArcadeBattle] = useState(false);
 
   const lobbyMatches = [
     {
@@ -69,6 +71,19 @@ const OneVOne = () => {
     }
   ];
 
+  const handleStartArcadeBattle = () => {
+    setShowArcadeBattle(true);
+  };
+
+  const handleReturnToLobby = () => {
+    setShowArcadeBattle(false);
+  };
+
+  // Show arcade battle if active
+  if (showArcadeBattle) {
+    return <ArcadeBattle onReturnToLobby={handleReturnToLobby} />;
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
@@ -82,6 +97,27 @@ const OneVOne = () => {
                 1V1 CHALLENGES
               </h1>
               <div className="h-px bg-primary w-24 mb-6"></div>
+              
+              {/* Arcade Mode Banner */}
+              <div className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-2 border-purple-400/30 rounded-lg p-4 mb-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-xl font-mono font-bold text-purple-400 mb-2">
+                      🎮 ARCADE MODE AVAILABLE! 🎮
+                    </h2>
+                    <p className="text-sm text-purple-300 font-mono">
+                      Experience high-energy, retro-style battles with animated progress bars, 
+                      confetti effects, and competitive dopamine triggers!
+                    </p>
+                  </div>
+                  <Button
+                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-mono font-bold px-6 py-3 rounded-lg border-2 border-purple-400"
+                    onClick={handleStartArcadeBattle}
+                  >
+                    START ARCADE BATTLE
+                  </Button>
+                </div>
+              </div>
             </div>
             
             <p className="text-lg font-mono text-muted-foreground mb-8 leading-relaxed">
@@ -141,7 +177,10 @@ const OneVOne = () => {
             <div className="space-y-4">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-mono font-bold text-foreground">AVAILABLE MATCHES</h2>
-                <Button className="btn-terminal rounded-none">
+                <Button 
+                  className="btn-terminal rounded-none"
+                  onClick={handleStartArcadeBattle}
+                >
                   CREATE MATCH
                 </Button>
               </div>
@@ -163,7 +202,11 @@ const OneVOne = () => {
                       <Badge variant="outline" className="border-primary/50 text-primary">
                         {match.status.toUpperCase()}
                       </Badge>
-                      <Button size="sm" className="btn-terminal rounded-none">
+                      <Button 
+                        size="sm" 
+                        className="btn-terminal rounded-none"
+                        onClick={handleStartArcadeBattle}
+                      >
                         JOIN
                       </Button>
                     </div>
@@ -209,10 +252,17 @@ const OneVOne = () => {
                   </div>
                   
                   <div className="flex gap-4">
-                    <Button className="btn-terminal rounded-none flex-1">
+                    <Button 
+                      className="btn-terminal rounded-none flex-1"
+                      onClick={handleStartArcadeBattle}
+                    >
                       CONTINUE MATCH
                     </Button>
-                    <Button variant="outline" className="rounded-none">
+                    <Button 
+                      variant="outline" 
+                      className="rounded-none"
+                      onClick={handleStartArcadeBattle}
+                    >
                       SPECTATE
                     </Button>
                   </div>

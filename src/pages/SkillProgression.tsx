@@ -1,13 +1,7 @@
-import { Navigation } from "@/components/Navigation";
 import { SkillTreeUser } from "@/components/SkillTreeUser";
 
 const SkillProgression = () => {
-  return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      <SkillTreeUser />
-    </div>
-  );
+  return <SkillTreeUser />;
 };
 
 export default SkillProgression;

@@ -7,12 +7,16 @@ import { useAuth } from "@/contexts/AuthContext";
 import { UserService } from "@/services/userService";
 import { AchievementService } from "@/services/achievementService";
 import { User, UserSkills } from "@/types/user";
+import SkillTutorialModal from "./SkillTutorialModal";
 
 export const SkillTreeUser = () => {
   const { user, refreshUser } = useAuth();
   const [selectedSkill, setSelectedSkill] = useState<number | null>(null);
   const [userSkills, setUserSkills] = useState<UserSkills | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(false);
+  const [tutorialSkill, setTutorialSkill] = useState<any>(null);
+  const [userAuraPoints, setUserAuraPoints] = useState(0);
 
 
   useEffect(() => {
@@ -45,6 +49,32 @@ export const SkillTreeUser = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleUnlockSkill = (skill: any) => {
+    setTutorialSkill(skill);
+    setShowTutorial(true);
+  };
+
+  const handleTutorialComplete = (auraPoints: number) => {
+    setUserAuraPoints(userAuraPoints + auraPoints);
+    setShowTutorial(false);
+    setTutorialSkill(null);
+    
+    // Add XP to the skill
+    if (tutorialSkill) {
+      const category = skillCategories.find(cat => 
+        cat.skills.some(s => s.id === tutorialSkill.id)
+      );
+      if (category) {
+        addSkillXP(category.categoryKey, tutorialSkill.id.toString(), 100);
+      }
+    }
+  };
+
+  const handleTutorialBack = () => {
+    setShowTutorial(false);
+    setTutorialSkill(null);
   };
 
   const getSkillProgress = (category: string, skillId: string) => {
@@ -220,13 +250,21 @@ export const SkillTreeUser = () => {
     <section className="py-20 px-6 bg-background">
       <div className="container mx-auto max-w-6xl">
         <div className="mb-12">
-          <h2 className="text-2xl font-mono font-bold mb-2 text-primary">
-            SKILL PROGRESSION
-          </h2>
-          <div className="h-px bg-primary/30 w-full mb-8"></div>
-          <p className="text-muted-foreground font-mono text-sm">
-            Master quantitative finance through structured learning paths. Complete prerequisites to unlock advanced skills.
-          </p>
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-2xl font-mono font-bold mb-2 text-primary">
+                SKILL PROGRESSION
+              </h2>
+              <div className="h-px bg-primary/30 w-full mb-4"></div>
+              <p className="text-muted-foreground font-mono text-sm">
+                Master quantitative finance through structured learning paths. Complete prerequisites to unlock advanced skills.
+              </p>
+            </div>
+            <div className="text-right">
+              <div className="text-sm text-muted-foreground font-mono">Aura Points</div>
+              <div className="text-2xl font-mono font-bold text-accent">{userAuraPoints}</div>
+            </div>
+          </div>
         </div>
 
         <div className="space-y-8">
@@ -278,7 +316,7 @@ export const SkillTreeUser = () => {
                                     ACTIVE
                                   </Badge>
                                 ) : canUnlock ? (
-                                  <Badge variant="outline" className="border-warning/50 text-warning text-xs">
+                                  <Badge variant="outline" className="border-accent/50 text-accent text-xs">
                                     AVAILABLE
                                   </Badge>
                                 ) : (
@@ -316,11 +354,11 @@ export const SkillTreeUser = () => {
                               className="w-full btn-terminal text-xs"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                addSkillXP(category.categoryKey, skill.id.toString(), 50);
+                                handleUnlockSkill(skill);
                               }}
                               disabled={loading}
                             >
-                              {loading ? 'Unlocking...' : 'Unlock Skill'}
+                              {loading ? 'Unlocking...' : 'Start Tutorial'}
                             </Button>
                           </div>
                         )}
@@ -412,6 +450,15 @@ export const SkillTreeUser = () => {
           </div>
         )}
       </div>
+
+      {/* Tutorial Modal */}
+      {showTutorial && tutorialSkill && (
+        <SkillTutorialModal
+          skill={tutorialSkill}
+          onComplete={handleTutorialComplete}
+          onClose={handleTutorialBack}
+        />
+      )}
     </section>
   );
 };

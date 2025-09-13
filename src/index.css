@@ -33,9 +33,9 @@
     --accent-glow: 45 100% 60%;
 
     /* Status colors - muted */
-    --success: 120 40% 40%;
+    --success: 120 100% 40%;
     --success-foreground: 0 0% 98%;
-    --success-glow: 120 40% 50%;
+    --success-glow: 120 100% 50%;
 
     --warning: 45 70% 50%;
     --warning-foreground: 0 0% 4%;
